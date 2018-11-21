@@ -2,6 +2,7 @@ package com.example.icegh.notes;
 
 import android.content.Context;
 import android.os.Environment;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -16,7 +17,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Scanner;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class AddNoteActivity extends AppCompatActivity {
     File file ;
@@ -25,8 +30,12 @@ public class AddNoteActivity extends AppCompatActivity {
     FileOutputStream outputStream;
     JSONArray notesJSONArray;
     Notes notes;
+    Timer timer;
+    TimerTask timerTask;
+    final Handler handler = new Handler();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_note);
@@ -50,6 +59,7 @@ public class AddNoteActivity extends AppCompatActivity {
 
 
     }
+
     public void save(View view){
         Toast.makeText(getApplicationContext(),"Note saved",Toast.LENGTH_LONG).show();
         String x = notes.saveNote(title.getText().toString(),noteContent.getText().toString());
@@ -63,4 +73,11 @@ public class AddNoteActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),"Nooo",Toast.LENGTH_LONG).show();
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+    }
+
 }
