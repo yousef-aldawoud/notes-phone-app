@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import org.json.JSONArray;
@@ -84,8 +85,20 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
                 holder.layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(v.getContext(),AddNoteActivity.class);
-                    v.getContext().startActivity(intent);
+                    Intent intent = new Intent(v.getContext(),NoteActivity.class);
+
+                    try {
+                        System.out.println("pos::"+position+"\\");
+                        System.out.println("pos::"+values.getJSONObject(position).getString("title"));
+                        System.out.println("pos::"+values.getJSONObject(position).getString("content"));
+                        Toast.makeText(v.getContext(),":::"+values.getJSONObject(position).getString("title"),Toast.LENGTH_LONG);
+                        Toast.makeText(v.getContext(),":::"+values.getJSONObject(position).getString("content"),Toast.LENGTH_LONG);
+                        intent.putExtra("title",values.getJSONObject(position).getString("title"));
+                        intent.putExtra("content",values.getJSONObject(position).getString("content"));
+                        v.getContext().startActivity(intent);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             });
         } catch (JSONException e) {
