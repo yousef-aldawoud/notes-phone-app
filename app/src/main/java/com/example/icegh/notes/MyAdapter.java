@@ -94,6 +94,7 @@ MyAdapter(JSONArray myDataSet) {
                         Toast.makeText(v.getContext(),":::"+values.getJSONObject(position).getString("content"),Toast.LENGTH_LONG);
                         intent.putExtra("title",values.getJSONObject(position).getString("title"));
                         intent.putExtra("content",values.getJSONObject(position).getString("content"));
+                        intent.putExtra("id",position+"");
                         v.getContext().startActivity(intent);
                     } catch (JSONException e) {
                         e.printStackTrace();

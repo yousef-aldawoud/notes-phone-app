@@ -1,6 +1,8 @@
 package com.example.icegh.notes;
 
 import android.content.Context;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 
 
 import org.json.JSONArray;
@@ -90,5 +92,24 @@ public class Notes {
         }
 
         return result;
+    }
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    public boolean deleteNote(int id){
+        try {
+            JSONArray notes = getNotesArray();
+            notes.remove(id);
+            outputStream = context.openFileOutput("notes.json", Context.MODE_PRIVATE);
+            outputStream.write(notes.toString().getBytes());
+            outputStream.close();
+            return true;
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

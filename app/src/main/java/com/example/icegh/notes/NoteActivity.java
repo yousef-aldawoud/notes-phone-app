@@ -12,7 +12,8 @@ import android.widget.Toast;
 
 public class NoteActivity extends AppCompatActivity {
     TextView titleTextView , contentTextView;
-    public String title,content;
+    public String title,content,id;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,6 +22,7 @@ public class NoteActivity extends AppCompatActivity {
         titleTextView = findViewById(R.id.title);
         contentTextView = findViewById(R.id.content);
         title = getIntent().getStringExtra("title");
+        id = getIntent().getStringExtra("id");
         content = getIntent().getStringExtra("content");
         titleTextView.setText(title);
         contentTextView.setText(content);
@@ -39,5 +41,9 @@ public class NoteActivity extends AppCompatActivity {
         ClipData clip = ClipData.newPlainText(title, title+"\n-------------\n"+content);
         clipboard.setPrimaryClip(clip);
         Toast.makeText(getApplicationContext(),"Copied to clipboard",Toast.LENGTH_SHORT).show();
+    }
+    public void delete(View v){
+        DeleteDialog deleteDialog = new DeleteDialog(Integer.parseInt(id),getApplicationContext(),title);
+        deleteDialog.show(getSupportFragmentManager(),"delete");
     }
 }
