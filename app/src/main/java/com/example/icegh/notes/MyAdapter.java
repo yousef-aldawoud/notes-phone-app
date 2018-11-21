@@ -1,10 +1,8 @@
 package com.example.icegh.notes;
 
-import android.content.Context;
+import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.os.Build;
 import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,8 +31,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             super(v);
             layout = v;
 
-            titleTextView = (TextView) v.findViewById(R.id.title);
-            contentTextView = (TextView) v.findViewById(R.id.content);
+            titleTextView =  v.findViewById(R.id.title);
+            contentTextView = v.findViewById(R.id.content);
         }
     }
     public void setValues(JSONArray values){
@@ -42,15 +40,15 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     }
 
 
-
+/*
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void remove(int position) {
         values.remove(position);
         notifyItemRemoved(position);
-    }
+    }*/
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public MyAdapter(JSONArray myDataSet,Context context) {
+    public MyAdapter(JSONArray myDataSet) {
         values = myDataSet;
     }
 
@@ -64,6 +62,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     }
 
     // Replace the contents of a view (invoked by the layout manager)
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         // - get element from your dataset at this position
