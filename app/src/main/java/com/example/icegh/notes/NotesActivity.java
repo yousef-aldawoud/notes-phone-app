@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -26,7 +27,7 @@ import java.util.TimerTask;
 //str.substring(15, 20)
 public class NotesActivity extends AppCompatActivity {
     RecyclerView recyclerView;
-    LinearLayoutManager layoutManager;
+    GridLayoutManager layoutManager;
     MyAdapter mAdapter;
     Notes notes;
     Timer timer;
@@ -54,7 +55,7 @@ public class NotesActivity extends AppCompatActivity {
         // of the RecyclerView
         recyclerView.setHasFixedSize(true);
         // use a linear layout manager
-        layoutManager = new LinearLayoutManager(this);
+        layoutManager = new GridLayoutManager(this,2);
         recyclerView.setLayoutManager(layoutManager);
 
         try {
