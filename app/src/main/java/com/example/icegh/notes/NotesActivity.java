@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +20,7 @@ public class NotesActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     LinearLayoutManager layoutManager;
     MyAdapter mAdapter;
+    Notes notes;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +28,12 @@ public class NotesActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        try {
+            notes = new Notes(getApplicationContext());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        notes.checkNotesFile();
 
         recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
         // use this setting to
