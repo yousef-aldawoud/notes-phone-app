@@ -17,6 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
+                android:textIsSelectable="true"
                 android:id="@+id/title"
                 android:textColor="#000"
                 android:layout_margin="15dp"
@@ -31,6 +32,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"/>
             <TextView
+                android:textIsSelectable="true"
+                android:autoLink="web|phone"
                 android:id="@+id/content"
                 android:textColor="#000"
                 android:layout_margin="15dp"

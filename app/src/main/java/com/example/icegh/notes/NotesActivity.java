@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -29,6 +31,8 @@ public class NotesActivity extends AppCompatActivity {
     TimerTask timerTask;
     JSONArray notesJSONArray;
     final Handler handler = new Handler();
+    private boolean searchMode =false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +40,7 @@ public class NotesActivity extends AppCompatActivity {
         Toolbar toolbar =  findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         startTimer();
+        setupSearch();
         try {
             notes = new Notes(getApplicationContext());
         } catch (FileNotFoundException e) {
@@ -67,17 +72,13 @@ public class NotesActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                searchMode = false;
                 startActivity(new Intent(NotesActivity.this,AddNoteActivity.class));
             }
         });
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_notes, menu);
-        return true;
-    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -103,9 +104,11 @@ public class NotesActivity extends AppCompatActivity {
                     public void run() {
                         //get the current timeStamp
                         try {
-                            notesJSONArray = notes.getNotesArray();
-                            mAdapter.setValues(notesJSONArray);
-                            mAdapter.notifyDataSetChanged();
+                            if(!searchMode){
+                                notesJSONArray = notes.getNotesArray();
+                                mAdapter.setValues(notesJSONArray);
+                                mAdapter.notifyDataSetChanged();
+                            }
                         } catch (FileNotFoundException e) {
                             e.printStackTrace();
                         } catch (JSONException e) {
@@ -115,6 +118,9 @@ public class NotesActivity extends AppCompatActivity {
                 });
             }
         };
+    }
+    public void search(){
+
     }
     public void startTimer() {
         //set a new Timer
@@ -126,4 +132,35 @@ public class NotesActivity extends AppCompatActivity {
         //schedule the timer, after the first 5000ms the TimerTask will run every 10000ms
         timer.schedule(timerTask, 5000, 2000); //
     }
+    private void setupSearch() {
+        MaterialSearchView searchView = findViewById(R.id.search_view);
+        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                searchMode = true;
+                mAdapter.setValues(notes.search(query));
+                mAdapter.notifyDataSetChanged();
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                mAdapter.setValues(notes.search(newText));
+                mAdapter.notifyDataSetChanged();
+                searchMode = true;
+                return false;
+            }
+        });
+
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_notes, menu);
+
+        MenuItem item = menu.findItem(R.id.search);
+        MaterialSearchView searchView = findViewById(R.id.search_view);
+        searchView.setMenuItem(item);
+        return true;
+    }
+
 }

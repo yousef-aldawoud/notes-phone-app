@@ -19,6 +19,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 public class Notes {
     JSONArray notesJSONArray;
@@ -77,5 +78,24 @@ public class Notes {
         }
 
         return response;
+    }
+    public JSONArray search(String regex){
+        JSONArray result = new JSONArray();
+        regex = ".*"+regex+".*";
+        try {
+            JSONArray notes = getNotesArray();
+            for(int i =0 ; i<notes.length() ;i++){
+                JSONObject note = (JSONObject) notes.get(i);
+                if(Pattern.matches(regex,note.getString("content"))||Pattern.matches(regex,note.getString("title"))){
+                    result.put(note);
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return result;
     }
 }

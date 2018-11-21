@@ -27,7 +27,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         public TextView contentTextView;
         public View layout;
 
-        public ViewHolder(View v) {
+        ViewHolder(View v) {
             super(v);
             layout = v;
 
@@ -45,26 +45,26 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     public void remove(int position) {
         values.remove(position);
         notifyItemRemoved(position);
-    }*/
+    }
 
-    // Provide a suitable constructor (depends on the kind of dataset)
-    public MyAdapter(JSONArray myDataSet) {
+     Provide a suitable constructor (depends on the kind of dataSet)*/
+MyAdapter(JSONArray myDataSet) {
         values = myDataSet;
     }
 
     // Create new views (invoked by the layout manager)
+    @NonNull
     @Override
     public MyAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View v =inflater.inflate(R.layout.note_item, parent, false);
-        ViewHolder vh = new ViewHolder(v);
-        return vh;
+        return new ViewHolder(v);
     }
 
     // Replace the contents of a view (invoked by the layout manager)
     @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         final JSONObject jsonObject;
