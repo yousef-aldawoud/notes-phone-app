@@ -1,18 +1,16 @@
 package com.example.icegh.notes;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.icegh.notes.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,15 +24,16 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     // you provide access to all the views for a data item in a view holder
     public class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
-        public TextView txtHeader;
-        public TextView txtFooter;
+        public TextView titleTextView;
+        public TextView contentTextView;
         public View layout;
 
         public ViewHolder(View v) {
             super(v);
             layout = v;
-            txtHeader = (TextView) v.findViewById(R.id.textView);
-            txtFooter = (TextView) v.findViewById(R.id.textView2);
+
+            titleTextView = (TextView) v.findViewById(R.id.title);
+            contentTextView = (TextView) v.findViewById(R.id.content);
         }
     }
     public void setValues(JSONArray values){
@@ -50,8 +49,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public MyAdapter(JSONArray myDataset) {
-        values = myDataset;
+    public MyAdapter(JSONArray myDataSet,Context context) {
+        values = myDataSet;
     }
 
     // Create new views (invoked by the layout manager)
@@ -65,20 +64,30 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         final JSONObject jsonObject;
         try {
             jsonObject = values.getJSONObject(position);
-            holder.txtHeader.setText(jsonObject.getString("title"));
-            holder.txtFooter.setText( jsonObject.getString("content"));
-            /*holder.txtHeader.setOnClickListener(new OnClickListener() {
+            if(jsonObject.getString("title").length()>60){
+                holder.titleTextView.setText(jsonObject.getString("title").substring(0,50)+".........");
+            }else{
+                holder.titleTextView.setText(jsonObject.getString("title"));
+            }
+
+            if(jsonObject.getString("content").length()>200){
+                holder.contentTextView.setText(jsonObject.getString("content").substring(0,200)+".........");
+            }else {
+                holder.contentTextView.setText(jsonObject.getString("content"));
+            }
+                holder.layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    remove(position);
+                    Intent intent = new Intent(v.getContext(),AddNoteActivity.class);
+                    v.getContext().startActivity(intent);
                 }
-            });*/
+            });
         } catch (JSONException e) {
             e.printStackTrace();
         }

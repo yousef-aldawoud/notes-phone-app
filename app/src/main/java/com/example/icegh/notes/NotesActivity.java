@@ -38,7 +38,7 @@ public class NotesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notes);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar =  findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         startTimer();
         try {
@@ -48,7 +48,7 @@ public class NotesActivity extends AppCompatActivity {
         }
         notes.checkNotesFile();
 
-        recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+        recyclerView =  findViewById(R.id.my_recycler_view);
         // use this setting to
         // improve performance if you know that changes
         // in content do not change the layout size
@@ -60,7 +60,7 @@ public class NotesActivity extends AppCompatActivity {
 
         try {
             notesJSONArray = notes.getNotesArray();
-            mAdapter = new MyAdapter(notesJSONArray);
+            mAdapter = new MyAdapter(notesJSONArray,getApplicationContext());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (JSONException e) {
@@ -68,13 +68,11 @@ public class NotesActivity extends AppCompatActivity {
         }
         recyclerView.setAdapter(mAdapter);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab =  findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(NotesActivity.this,AddNoteActivity.class));
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
             }
         });
     }
