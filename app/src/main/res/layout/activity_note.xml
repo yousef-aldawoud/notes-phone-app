@@ -42,11 +42,28 @@
                 android:textSize="15sp"/>
         </LinearLayout>
     </ScrollView>
-    <Button
-        android:onClick="share"
-        android:text="share"
-        android:layout_gravity="bottom|right"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:background="#fff"
+            android:layout_gravity="bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+
+                android:layout_width="54dp"
+                android:layout_height="51dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/copy_icon"
+                android:onClick="copyToClipboard" />
+
+            <Button
+                android:layout_width="48dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@android:drawable/ic_menu_share"
+                android:onClick="share" />
+        </LinearLayout>
+
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

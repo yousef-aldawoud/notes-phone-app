@@ -1,10 +1,14 @@
 package com.example.icegh.notes;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class NoteActivity extends AppCompatActivity {
     TextView titleTextView , contentTextView;
@@ -29,5 +33,11 @@ public class NoteActivity extends AppCompatActivity {
         sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, title);
         sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, title+"\n-------------\n"+content);
         startActivity(Intent.createChooser(sharingIntent, "sharing txt"));
+    }
+    public void copyToClipboard(View v){
+        ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText(title, title+"\n-------------\n"+content);
+        clipboard.setPrimaryClip(clip);
+        Toast.makeText(getApplicationContext(),"Copied to clipboard",Toast.LENGTH_SHORT).show();
     }
 }
