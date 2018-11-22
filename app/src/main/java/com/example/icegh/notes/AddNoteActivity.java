@@ -27,7 +27,10 @@ public class AddNoteActivity extends AppCompatActivity {
         file =new File(getApplicationContext().getFilesDir(),"notes.json");
         title = findViewById(R.id.title);
         noteContent = findViewById(R.id.note_context);
-
+        if(getIntent().getStringExtra("type").equals("edit")){
+            title.setText(getIntent().getStringExtra("title"));
+            noteContent.setText(getIntent().getStringExtra("content"));
+        }
         try {
             notes = new Notes(getApplicationContext());
         } catch (FileNotFoundException e) {
@@ -46,11 +49,18 @@ public class AddNoteActivity extends AppCompatActivity {
     }
 
     public void save(View view){
-        Toast.makeText(getApplicationContext(),"Note saved",Toast.LENGTH_LONG).show();
-        String x = notes.saveNote(title.getText().toString(),noteContent.getText().toString());
-        Toast.makeText(getApplicationContext(),x,Toast.LENGTH_LONG).show();
+        if(getIntent().getStringExtra("type").equals("save")){
+            String x = notes.saveNote(title.getText().toString(),noteContent.getText().toString());
+            Toast.makeText(getApplicationContext(),x,Toast.LENGTH_LONG).show();
+
+        }else{
+            notes.editNote(Integer.parseInt(getIntent().getStringExtra("id")),title.getText().toString(),noteContent.getText().toString());
+            Toast.makeText(getApplicationContext(),"Note edited",Toast.LENGTH_LONG).show();
+
+        }
         this.finish();
     }
+
     public void say(View view){
         try {
             String x = notes.loadFile();

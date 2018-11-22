@@ -46,4 +46,13 @@ public class NoteActivity extends AppCompatActivity {
         DeleteDialog deleteDialog = new DeleteDialog(Integer.parseInt(id),getApplicationContext(),title);
         deleteDialog.show(getSupportFragmentManager(),"delete");
     }
+    public void edit(View v){
+        Intent intent = new Intent(getApplicationContext(),AddNoteActivity.class);
+        intent.putExtra("type","edit");
+        intent.putExtra("title",title);
+        intent.putExtra("content",content);
+        intent.putExtra("id",id);
+        this.finish();
+        startActivity(intent);
+    }
 }

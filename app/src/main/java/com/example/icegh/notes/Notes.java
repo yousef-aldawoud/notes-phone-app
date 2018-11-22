@@ -112,4 +112,25 @@ public class Notes {
         }
         return false;
     }
+    public boolean editNote(int id, String title, String content){
+        try {
+            JSONArray notes = getNotesArray();
+            JSONObject noteObject = new JSONObject();
+            noteObject.put("title",title);
+            noteObject.put("content",content);
+            notes.put(id,noteObject);
+            outputStream = context.openFileOutput("notes.json", Context.MODE_PRIVATE);
+            outputStream.write(notes.toString().getBytes());
+            outputStream.close();
+            return true;
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

@@ -73,7 +73,9 @@ public class NotesActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 searchMode = false;
-                startActivity(new Intent(NotesActivity.this,AddNoteActivity.class));
+                Intent intent = new Intent(NotesActivity.this,AddNoteActivity.class);
+                intent.putExtra("type","save");
+                startActivity(intent);
             }
         });
     }
@@ -130,7 +132,7 @@ public class NotesActivity extends AppCompatActivity {
         initializeTimerTask();
 
         //schedule the timer, after the first 5000ms the TimerTask will run every 10000ms
-        timer.schedule(timerTask, 5000, 2000); //
+        timer.schedule(timerTask, 5000, 1000); //
     }
     private void setupSearch() {
         MaterialSearchView searchView = findViewById(R.id.search_view);
